@@ -1,8 +1,8 @@
-# Race Tracker Landing Page
+# Racely Landing Page
 
 ## Overview
 
-This is the marketing website for Race Tracker, a native iOS app that helps runners track past races, plan upcoming races, and view detailed running statistics. The landing page showcases the app's features with a clean, iOS-inspired design.
+This is the marketing website for Racely, a native iOS app that helps runners track past races, plan upcoming races, and view detailed running statistics. The landing page showcases the app's features with a clean, iOS-inspired design.
 
 ## Features
 
