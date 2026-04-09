@@ -8,7 +8,7 @@ This is the marketing website for Racely, a native iOS app that helps runners tr
 
 - **Responsive Design**: Optimized for all screen sizes from mobile to desktop
 - **Dark Mode**: System-aware dark mode with manual toggle and localStorage persistence
-- **Modern UI**: iOS-style design with glassmorphism effects, gradients, and smooth animations
+- **Modern UI**: Editorial design with Cormorant Garamond + Archivo typography, bento grid feature layout, and smooth scroll-reveal animations
 - **Zero Dependencies**: Pure HTML/CSS/JavaScript - no frameworks or build tools required
 - **Performance**: Lightweight and fast with minimal JavaScript
 - **Accessibility**: Semantic HTML with ARIA labels for interactive elements
