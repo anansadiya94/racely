@@ -438,7 +438,8 @@
     .bc-profile  { grid-column: 2;     grid-row: 3; }
     .bc-sync     { grid-column: 3;     grid-row: 3; }
     .bc-location { grid-column: 1;     grid-row: 4; }
-    .bc-widgets  { grid-column: 2 / 4; grid-row: 4; }
+    .bc-strava   { grid-column: 2;     grid-row: 4; }
+    .bc-widgets  { grid-column: 3;     grid-row: 4; }
 
     .bc-history::before  { background: linear-gradient(90deg, var(--blue), var(--purple)); }
     .bc-planning::before { background: var(--orange); }
@@ -447,12 +448,20 @@
     .bc-profile::before  { background: var(--red); }
     .bc-sync::before     { background: linear-gradient(90deg, var(--blue), var(--sky)); }
     .bc-location::before { background: var(--green); }
+    .bc-strava::before   { background: #FC4C02; }
     .bc-widgets::before  { background: linear-gradient(90deg, var(--orange), var(--red)); }
+
 
     .bc-icon {
       font-size: 26px;
       margin-bottom: 18px;
       display: block;
+    }
+
+    .bc-icon.strava-icon {
+      display: flex;
+      align-items: center;
+      line-height: 1;
     }
 
     .bc-name {
@@ -853,6 +862,9 @@
       .bc-dist     { grid-column: 1;     grid-row: 3; }
       .bc-profile  { grid-column: 2;     grid-row: 3; }
       .bc-sync     { grid-column: 1 / 3; grid-row: 4; }
+      .bc-location { grid-column: 1;     grid-row: 5; }
+      .bc-strava   { grid-column: 2;     grid-row: 5; }
+      .bc-widgets  { grid-column: 1 / 3; grid-row: 6; }
 
       .terrain-row { grid-template-columns: 56px 1fr; }
       .terrain-desc { grid-column: 2; }
@@ -867,7 +879,8 @@
       .features, .race-types, .sync-wrap, .cta-wrap { padding: 72px 0; }
 
       .bento { grid-template-columns: 1fr; }
-      .bc-history, .bc-planning, .bc-stats, .bc-dist, .bc-profile, .bc-sync {
+      .bc-history, .bc-planning, .bc-stats, .bc-dist, .bc-profile, .bc-sync,
+      .bc-location, .bc-strava, .bc-widgets {
         grid-column: 1 !important;
         grid-row: auto !important;
       }
@@ -1031,7 +1044,7 @@
 
         <!-- Strava -->
         <div class="bc bc-strava reveal">
-          <span class="bc-icon">🔗</span>
+          <span class="bc-icon strava-icon"><img src="strava-icon.webp" alt="Strava" width="26" height="26" style="object-fit:contain;"></span>
           <h3 class="bc-name">Strava Import</h3>
           <p class="bc-desc">Connect your Strava account and import your race history in one tap. Your Strava races land directly in Racely.</p>
         </div>
