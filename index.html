@@ -4,6 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Racely — Track Every Race, Own Every PR</title>
+  <meta name="description" content="Racely is the iPhone app for runners who race. Log past races, plan upcoming ones, track personal bests, and sync everything automatically with iCloud." />
+  <meta property="og:title" content="Racely — Track Every Race, Own Every PR" />
+  <meta property="og:description" content="The iPhone app for runners who race. Log your history, plan upcoming races, and watch your progress unfold." />
+  <meta property="og:image" content="https://anansadiya94.github.io/racely/app-icon.png" />
+  <meta property="og:url" content="https://anansadiya94.github.io/racely/" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Racely — Track Every Race, Own Every PR" />
+  <meta name="twitter:description" content="The iPhone app for runners who race. Log your history, plan upcoming races, and watch your progress unfold." />
+  <meta name="twitter:image" content="https://anansadiya94.github.io/racely/app-icon.png" />
   <link rel="icon" type="image/png" href="app-icon.png" media="(prefers-color-scheme: light)" />
   <link rel="icon" type="image/png" href="app-icon-dark.png" media="(prefers-color-scheme: dark)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -533,6 +543,7 @@
     }
 
     .race-types-hd {
+      text-align: center;
       margin-bottom: 52px;
     }
 
@@ -623,22 +634,22 @@
       overflow: hidden;
     }
 
-    /* Giant decorative cloud */
+    /* Decorative blur circle */
     .sync-card::after {
-      content: '☁';
+      content: '';
       position: absolute;
-      right: -30px;
+      right: -80px;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 300px;
-      line-height: 1;
-      color: rgba(59, 130, 246, 0.04);
+      width: 340px;
+      height: 340px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.07) 0%, transparent 70%);
       pointer-events: none;
-      user-select: none;
     }
 
     [data-theme="dark"] .sync-card::after {
-      color: rgba(59, 130, 246, 0.06);
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.11) 0%, transparent 70%);
     }
 
     .sync-h {
@@ -791,6 +802,105 @@
       position: relative;
     }
 
+    /* ── FAQ ── */
+    .faq-wrap {
+      padding: 100px 0;
+    }
+
+    .faq-hd {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .faq-list {
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 22px 28px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-align: left;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      transition: background var(--ease);
+    }
+
+    .faq-question:hover {
+      background: var(--bg-alt);
+    }
+
+    .faq-chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--ease), background var(--ease);
+    }
+
+    .faq-chevron svg {
+      width: 10px;
+      height: 10px;
+      stroke: var(--text-2);
+      transition: stroke var(--ease);
+    }
+
+    .faq-item.open .faq-chevron {
+      transform: rotate(180deg);
+      background: linear-gradient(120deg, var(--blue), var(--purple));
+      border-color: transparent;
+    }
+
+    .faq-item.open .faq-chevron svg {
+      stroke: #fff;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+    }
+
+    .faq-answer-inner {
+      padding: 0 28px 22px;
+      font-size: 14.5px;
+      color: var(--text-2);
+      line-height: 1.65;
+    }
+
     /* ── FOOTER ── */
     footer {
       padding: 38px 0;
@@ -838,6 +948,13 @@
     }
 
     .footer-links a:hover { color: var(--text-2); }
+
+    .footer-love {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 13px;
+      color: var(--text-3);
+    }
 
     /* ── REVEAL ── */
     .reveal {
@@ -911,6 +1028,7 @@
           <ul class="nav-links">
             <li><a href="#features">Features</a></li>
             <li><a href="#race-types">Race Types</a></li>
+            <li><a href="#faq">FAQ</a></li>
             <li><a href="https://anansadiya94.github.io/racely/privacy.html">Privacy</a></li>
             <li><a href="https://anansadiya94.github.io/racely/terms.html">Terms</a></li>
           </ul>
@@ -1167,6 +1285,77 @@
     </div>
   </section>
 
+  <!-- ── FAQ ── -->
+  <section id="faq" class="faq-wrap">
+    <div class="container">
+
+      <div class="faq-hd reveal">
+        <p class="kicker">Got questions?</p>
+        <h2 class="section-h">Frequently Asked <em>Questions</em></h2>
+      </div>
+
+      <div class="faq-list reveal">
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is Racely free?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes, Racely is completely free to download and use.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is it available on iPad or Mac?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Racely is iPhone only for now.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How does iCloud sync work?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Automatically — there's nothing to set up. As long as you're signed into your Apple ID, your data syncs silently in the background across all your devices.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I import races from Strava?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Connect your Strava account in the app and your runs tagged as "Race" are imported instantly.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is my data private?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Your race data is stored in Apple's iCloud and never shared with third parties.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I use Racely offline?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes — everything works offline. The only feature that requires internet is importing races from Strava.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Does Racely have widgets?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes! Two widgets, each available in two sizes: Personal Bests (your top performances at a glance) and Upcoming Race (countdown to your next start line).</div></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
   <!-- ── FOOTER ── -->
   <footer>
     <div class="container">
@@ -1178,6 +1367,7 @@
           <li><a href="https://anansadiya94.github.io/racely/terms.html">Terms of Use</a></li>
         </ul>
       </div>
+      <p class="footer-love">Made with ♥ by Anan Sadiya</p>
     </div>
   </footer>
 
@@ -1225,6 +1415,22 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -52px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── FAQ accordion ──
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item.open').forEach(el => {
+          el.classList.remove('open');
+          el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
   </script>
 </body>
 </html>
