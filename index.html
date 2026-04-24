@@ -38,7 +38,7 @@
       --border-strong:  rgba(0, 0, 0, 0.13);
       --text:           #1B1915;
       --text-2:         #6B6860;
-      --text-3:         #A8A49C;
+      --text-3:         #7A7671;
 
       --font-display: 'Gloock', serif;
       --font-body:    'Archivo', sans-serif;
@@ -55,7 +55,7 @@
       --border-strong: rgba(255, 255, 255, 0.13);
       --text:          #F0EDE6;
       --text-2:        #88847C;
-      --text-3:        #555250;
+      --text-3:        #706D69;
     }
 
     html { scroll-behavior: smooth; }
@@ -153,8 +153,8 @@
     .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
 
     .theme-btn {
-      width: 34px;
-      height: 34px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
       border: 1px solid var(--border-strong);
       background: var(--surface);
@@ -306,7 +306,7 @@
     }
 
     .btn-outline:hover {
-      border-color: var(--text-3);
+      border-color: var(--text-2);
       transform: translateY(-1px);
     }
 
@@ -930,6 +930,41 @@
       color: var(--text-3);
     }
 
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 16px;
+      background: var(--surface);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      z-index: 9999;
+      border: 1px solid var(--border-strong);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      transition: top 0.15s ease;
+    }
+    .skip-link:focus { top: 12px; outline: 2px solid var(--blue); outline-offset: 2px; }
+
+    /* ── FOCUS VISIBLE ── */
+    :focus-visible {
+      outline: 2px solid var(--blue);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .btn:focus-visible,
+    .nav-cta:focus-visible {
+      outline-offset: 4px;
+      border-radius: 100px;
+    }
+    .theme-btn:focus-visible,
+    .faq-question:focus-visible {
+      outline-offset: 3px;
+    }
+
     /* ── REVEAL ── */
     .reveal {
       opacity: 0;
@@ -993,6 +1028,8 @@
 </head>
 <body>
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ── NAV ── -->
   <nav>
     <div class="container">
@@ -1003,8 +1040,8 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#race-types">Race Types</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="https://anansadiya94.github.io/racely/privacy.html">Privacy</a></li>
-            <li><a href="https://anansadiya94.github.io/racely/terms.html">Terms</a></li>
+            <li><a href="https://anansadiya94.github.io/racely/privacy.html">Privacy Policy</a></li>
+            <li><a href="https://anansadiya94.github.io/racely/terms.html">Terms of Use</a></li>
           </ul>
           <a href="https://apps.apple.com/us/app/racely/id6761856973" target="_blank" rel="noopener" class="nav-cta">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -1017,11 +1054,11 @@
   </nav>
 
   <!-- ── HERO ── -->
-  <section class="hero">
+  <section id="main-content" class="hero">
     <div class="hero-mesh"></div>
     <div class="container">
 
-      <div class="hero-eyebrow">🏃 Built for Runners</div>
+      <div class="hero-eyebrow">✦ Available Now · Free</div>
 
       <img src="app-icon.png"      alt="Racely app icon" class="hero-icon hero-icon-light" />
       <img src="app-icon-dark.png" alt="Racely app icon" class="hero-icon hero-icon-dark"  />
@@ -1036,7 +1073,7 @@
       <div class="hero-cta">
         <a href="https://apps.apple.com/us/app/racely/id6761856973" target="_blank" rel="noopener" class="btn btn-primary">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          Download for iOS
+          Download on the App Store
         </a>
         <a href="#features" class="btn btn-outline">Explore Features</a>
       </div>
@@ -1131,7 +1168,7 @@
         <div class="bc bc-location reveal">
           <span class="bc-icon">📍</span>
           <h3 class="bc-name">Race Locations</h3>
-          <p class="bc-desc">Pin every race to a city with Apple Maps search. Build a map of everywhere you've raced.</p>
+          <p class="bc-desc">Pin every race to a city and switch to map view to see your entire race history plotted on a map.</p>
         </div>
 
         <!-- Strava -->
@@ -1201,8 +1238,8 @@
 
         <div>
           <p class="kicker" style="margin-bottom:12px">Always with you</p>
-          <h2 class="sync-h">Synced across <em>all your devices</em></h2>
-          <p class="sync-body">Your race data follows you everywhere. iCloud sync keeps your history, upcoming races, and profile always up to date — on every Apple device you own, automatically.</p>
+          <h2 class="sync-h">Your data, <em>always with you</em></h2>
+          <p class="sync-body">Your race data follows you everywhere. iCloud sync keeps your history, upcoming races, and profile backed up automatically — so switching to a new iPhone or reinstalling is completely painless.</p>
           <ul class="sync-list">
             <li>
               <span class="check-circle"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#22C55E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1227,17 +1264,17 @@
           <div class="dev-card dev-card-1">
             <div class="dev-label">iPhone · Synced</div>
             <div class="dev-race">Boston Marathon</div>
-            <div class="dev-time">3h 42m 18s</div>
+            <div class="dev-time">3:28:27</div>
           </div>
           <div class="dev-card dev-card-2">
-            <div class="dev-label">iPad · Synced</div>
+            <div class="dev-label">New iPhone · Restored</div>
             <div class="dev-race">NYC Half</div>
-            <div class="dev-time">1h 48m 05s</div>
+            <div class="dev-time">1:28:23</div>
           </div>
           <div class="dev-card dev-card-3">
-            <div class="dev-label">Mac · Synced</div>
+            <div class="dev-label">Reinstalled · Ready</div>
             <div class="dev-race">5K Parkrun</div>
-            <div class="dev-time">22m 34s</div>
+            <div class="dev-time">18:27</div>
           </div>
         </div>
 
@@ -1283,7 +1320,7 @@
             Is it available on iPad or Mac?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Racely is iPhone only for now.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Racely is an iPhone app. Your data syncs automatically via iCloud, so your full race history is always backed up — switch to a new iPhone or reinstall and everything comes right back.</div></div>
         </div>
 
         <div class="faq-item">
