@@ -784,12 +784,13 @@
 
     /* ── FAQ ── */
     .faq-wrap {
-      padding: 100px 0;
+      padding: 72px 0;
     }
 
     .faq-hd {
-      text-align: center;
-      margin-bottom: 56px;
+      text-align: left;
+      max-width: 720px;
+      margin: 0 auto 56px;
     }
 
     .faq-list {
@@ -799,7 +800,7 @@
       flex-direction: column;
       gap: 0;
       border: 1px solid var(--border-strong);
-      border-radius: var(--radius-lg);
+      border-radius: 12px;
       overflow: hidden;
     }
 
@@ -836,38 +837,42 @@
 
     .faq-chevron {
       flex-shrink: 0;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
+      width: 16px;
+      height: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: transform var(--ease), background var(--ease);
+      transition: transform var(--ease);
     }
 
     .faq-chevron svg {
       width: 10px;
       height: 10px;
       stroke: var(--text-2);
-      transition: stroke var(--ease);
+      transition: stroke 0.2s;
     }
 
     .faq-item.open .faq-chevron {
       transform: rotate(180deg);
-      background: var(--blue);
-      border-color: transparent;
     }
 
     .faq-item.open .faq-chevron svg {
-      stroke: #fff;
+      stroke: var(--blue);
+    }
+
+    .faq-item.open .faq-question {
+      color: var(--blue);
     }
 
     .faq-answer {
       display: grid;
       grid-template-rows: 0fr;
-      transition: grid-template-rows 0.35s ease;
+      transition: grid-template-rows 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .faq-answer { transition: none; }
+      .faq-chevron { transition: none; }
     }
 
     .faq-item.open .faq-answer {
@@ -941,6 +946,95 @@
     .footer-love {
       font-size: 13px;
       color: var(--text-3);
+    }
+
+    /* ── SCREENSHOTS ── */
+    .screenshots-wrap {
+      padding: 96px 0;
+      overflow: hidden;
+    }
+
+    .screenshots-hd {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+
+    .screenshots-scroll {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+
+    .screenshots-scroll::-webkit-scrollbar { display: none; }
+
+    .screenshots-track {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      min-width: max-content;
+      padding: 12px 32px 20px;
+    }
+
+    .phone-frame {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .phone-frame img {
+      width: 200px;
+      border-radius: 20px;
+      display: block;
+      border: 1px solid var(--border-strong);
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.08),
+        0 16px 48px rgba(0,0,0,0.10);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .phone-frame:hover img {
+      transform: translateY(-6px);
+      box-shadow:
+        0 8px 24px rgba(0,0,0,0.10),
+        0 28px 64px rgba(0,0,0,0.14);
+    }
+
+    [data-theme="dark"] .phone-frame img {
+      border-color: rgba(255,255,255,0.10);
+      box-shadow:
+        0 4px 16px rgba(0,0,0,0.28),
+        0 16px 48px rgba(0,0,0,0.42);
+    }
+
+    [data-theme="dark"] .phone-frame:hover img {
+      box-shadow:
+        0 8px 24px rgba(0,0,0,0.32),
+        0 28px 64px rgba(0,0,0,0.54);
+    }
+
+    .phone-label {
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text-2);
+      letter-spacing: -0.01em;
+      text-align: center;
+      transition: color var(--ease);
+    }
+
+    .phone-frame:hover .phone-label { color: var(--text); }
+
+    @media (max-width: 960px) {
+      .screenshots-track { justify-content: flex-start; }
+    }
+
+    @media (max-width: 640px) {
+      .screenshots-wrap { padding: 72px 0; }
+      .screenshots-track { padding: 12px 20px 20px; gap: 14px; }
+      .phone-frame img { width: 160px; border-radius: 16px; }
     }
 
     /* ── SKIP LINK ── */
@@ -1050,6 +1144,7 @@
         <a href="#" class="nav-logo"><span>Racely</span></a>
         <div class="nav-right">
           <ul class="nav-links">
+            <li><a href="#screenshots">Screenshots</a></li>
             <li><a href="#features">Features</a></li>
             <li><a href="#race-types">Race Types</a></li>
             <li><a href="#faq">FAQ</a></li>
@@ -1098,6 +1193,46 @@
         <span class="stat-pill"><span class="pill-dot" style="background:var(--orange)"></span>Free to Download</span>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ── SCREENSHOTS ── -->
+  <section id="screenshots" class="screenshots-wrap">
+    <div class="container">
+      <div class="screenshots-hd reveal">
+        <p class="kicker">Screenshots</p>
+        <h2 class="section-h">Built for runners, <em>by a runner</em></h2>
+      </div>
+    </div>
+    <div class="screenshots-scroll">
+      <div class="screenshots-track">
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/onboarding.png" alt="Onboarding screen" loading="lazy" />
+          <p class="phone-label">Onboarding</p>
+        </div>
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/past_races_list.png" alt="Past Races screen" loading="lazy" />
+          <p class="phone-label">Past Races</p>
+        </div>
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/upcoming_races_map.png" alt="Upcoming Races screen" loading="lazy" />
+          <p class="phone-label">Upcoming Races</p>
+        </div>
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/stats.png" alt="Statistics screen" loading="lazy" />
+          <p class="phone-label">Stats</p>
+        </div>
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/profile.png" alt="Profile screen" loading="lazy" />
+          <p class="phone-label">Profile</p>
+        </div>
+
+      </div>
     </div>
   </section>
 
@@ -1332,8 +1467,8 @@
     <div class="container">
 
       <div class="faq-hd reveal">
-        <p class="kicker">Got questions?</p>
-        <h2 class="section-h">Frequently Asked <em>Questions</em></h2>
+        <p class="kicker">Questions</p>
+        <h2 class="section-h">Frequently Asked Questions</h2>
       </div>
 
       <div class="faq-list reveal">
@@ -1343,7 +1478,15 @@
             Is Racely free?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes, Racely is completely free to download and use.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes — free to download and use, no subscription required. No plans to change that.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Does Racely track my runs with GPS?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">No — Racely is a race log, not a GPS tracker. You enter your finish time after the race (or import it from Strava). Think of it as your personal race record book, not a training app.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1351,39 +1494,15 @@
             Is it available on iPad or Mac?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Racely is an iPhone app. Your data syncs automatically via iCloud, so your full race history is always backed up — switch to a new iPhone or reinstall and everything comes right back.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">iPhone only for now. Your race history syncs automatically via iCloud, so switching to a new iPhone or reinstalling brings everything right back.</div></div>
         </div>
 
         <div class="faq-item">
           <button class="faq-question" aria-expanded="false">
-            How does iCloud sync work?
+            What distances and race types does Racely support?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Automatically — there's nothing to set up. As long as you're signed into your Apple ID, your data syncs silently in the background across all your devices.</div></div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Can I import races from Strava?
-            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
-          </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes. Connect your Strava account in the app and your runs tagged as "Race" are imported instantly.</div></div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Is my data private?
-            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
-          </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes. Your race data is stored in Apple's iCloud and never shared with third parties.</div></div>
-        </div>
-
-        <div class="faq-item">
-          <button class="faq-question" aria-expanded="false">
-            Can I use Racely offline?
-            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
-          </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes — everything works offline. The only feature that requires internet is importing races from Strava.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">5K, 10K, Half Marathon, Marathon, and Ultra out of the box — plus a Custom distance for anything else. Road, Trail, and Track race types are all supported.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1391,7 +1510,47 @@
             Does Racely have widgets?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes! Two widgets, each available in two sizes: Personal Bests (your top performances at a glance) and Upcoming Race (countdown to your next start line).</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Two widgets, each in two sizes: Personal Bests (your top performances at a glance) and Upcoming Race (countdown to your next start line).</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            How does iCloud sync work?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Automatically — nothing to set up. Sign into your Apple ID and your data syncs silently in the background. The app works fully without iCloud too; data just stays on-device.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I import races from Strava?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Connect your Strava account in Settings and any activity you've marked as a Race in Strava is imported instantly. Strava is optional — you can log races manually without it.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Is my data private?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. No account required — your data lives in Apple's iCloud, tied to your Apple ID. It's never sold or shared with third parties.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I use Racely offline?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes — everything works offline. The only feature that requires internet is importing from Strava.</div></div>
+        </div>
+
+        <div class="faq-item">
+          <button class="faq-question" aria-expanded="false">
+            Can I export my race data?
+            <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
+          </button>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Go to Profile → Settings → Export Data to download a copy of your full race history as JSON. Your data is always yours.</div></div>
         </div>
 
       </div>
@@ -1465,11 +1624,10 @@
       btn.addEventListener('click', () => {
         const item = btn.closest('.faq-item');
         const isOpen = item.classList.contains('open');
-        document.querySelectorAll('.faq-item.open').forEach(el => {
-          el.classList.remove('open');
-          el.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
-        });
-        if (!isOpen) {
+        if (isOpen) {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        } else {
           item.classList.add('open');
           btn.setAttribute('aria-expanded', 'true');
         }
