@@ -8,6 +8,9 @@
   <meta property="og:title" content="Racely — Track Every Race, Own Every PR" />
   <meta property="og:description" content="The iPhone app for runners who race. Log your history, plan upcoming races, and watch your progress unfold." />
   <meta property="og:image" content="https://anansadiya94.github.io/racely/app-icon.png" />
+  <meta property="og:image:width" content="1024" />
+  <meta property="og:image:height" content="1024" />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:url" content="https://anansadiya94.github.io/racely/" />
   <meta property="og:type" content="website" />
   <meta name="twitter:card" content="summary" />
@@ -320,38 +323,6 @@
       box-shadow: 0 12px 32px rgba(0,0,0,0.22);
     }
 
-    /* Stat pills */
-    .stat-pills {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      opacity: 0;
-      animation: riseUp 0.7s ease forwards 0.72s;
-    }
-
-    .stat-pill {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 12.5px;
-      font-weight: 500;
-      color: var(--text-2);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 7px 16px;
-      border-radius: 100px;
-      letter-spacing: 0.01em;
-      transition: border-color var(--ease), color var(--ease);
-    }
-
-    .stat-pill:hover { border-color: var(--border-strong); color: var(--text); }
-
-    .pill-dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
 
     @keyframes riseUp {
       from { opacity: 0; transform: translateY(22px); }
@@ -437,23 +408,19 @@
     .bc-widgets  { grid-column: 3;     grid-row: 4; }
 
     .bc-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 11px;
-      background: var(--bg-alt);
-      border: 1px solid var(--border);
+      width: 24px;
+      height: 24px;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 20px;
-      color: var(--text);
+      margin-bottom: 18px;
       flex-shrink: 0;
     }
 
     .bc-icon svg,
     .bc-icon img {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       object-fit: contain;
     }
 
@@ -518,11 +485,13 @@
       color: var(--blue);
       flex-shrink: 0;
       letter-spacing: -0.01em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
     }
 
     /* ── RACE TYPES ── */
     .race-types {
-      padding: 96px 0;
+      padding: 72px 0;
     }
 
     .race-types-hd {
@@ -541,7 +510,7 @@
       grid-template-columns: 80px 1fr 1.2fr;
       align-items: center;
       gap: 28px;
-      padding: 36px 40px;
+      padding: 44px 48px;
       border-bottom: 1px solid var(--border);
       transition: background var(--ease);
       cursor: default;
@@ -726,11 +695,13 @@
       font-size: 13px;
       color: var(--blue);
       font-style: italic;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
     }
 
     /* ── CTA ── */
     .cta-wrap {
-      padding: 96px 0;
+      padding: 128px 0 80px;
       text-align: center;
     }
 
@@ -753,15 +724,6 @@
       pointer-events: none;
     }
 
-    .cta-box::after {
-      content: '';
-      position: absolute;
-      bottom: -100px; left: -60px;
-      width: 280px; height: 280px;
-      border-radius: 50%;
-      background: rgba(240, 237, 230, 0.025);
-      pointer-events: none;
-    }
 
     .cta-h {
       font-family: var(--font-display);
@@ -784,7 +746,7 @@
 
     /* ── FAQ ── */
     .faq-wrap {
-      padding: 72px 0;
+      padding: 56px 0 80px;
     }
 
     .faq-hd {
@@ -1037,6 +999,129 @@
       .phone-frame img { width: 160px; border-radius: 16px; }
     }
 
+    /* ── SCREENSHOTS NAV ── */
+    .screenshots-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .screenshots-arrow {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text-2);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: border-color var(--ease), color var(--ease), background var(--ease);
+      flex-shrink: 0;
+    }
+
+    .screenshots-arrow:hover { border-color: var(--text-3); color: var(--text); }
+    .screenshots-arrow svg { width: 14px; height: 14px; }
+
+    .screenshots-dots {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .screenshots-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--border-strong);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+      transition: background var(--ease), transform var(--ease);
+    }
+
+    .screenshots-dot.active {
+      background: var(--blue);
+      transform: scale(1.4);
+    }
+
+    @media (min-width: 961px) {
+      .screenshots-nav { display: none; }
+    }
+
+    /* ── BENTO MOCKS ── */
+    .plan-mock {
+      margin-top: 20px;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+
+    .plan-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      margin-bottom: 8px;
+    }
+
+    .plan-number {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--orange);
+      line-height: 1;
+      display: block;
+      letter-spacing: -0.02em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
+    .plan-days {
+      font-size: 12px;
+      color: var(--text-2);
+      margin-top: 4px;
+    }
+
+    .stats-mock {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .stat-mock-item {
+      flex: 1;
+      background: var(--bg-alt);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+    }
+
+    .stat-mock-num {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 5px;
+      letter-spacing: -0.01em;
+      font-variant-numeric: tabular-nums;
+      font-feature-settings: "tnum" 1;
+    }
+
+    .stat-mock-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+
     /* ── SKIP LINK ── */
     .skip-link {
       position: absolute;
@@ -1148,8 +1233,6 @@
             <li><a href="#features">Features</a></li>
             <li><a href="#race-types">Race Types</a></li>
             <li><a href="#faq">FAQ</a></li>
-            <li><a href="https://anansadiya94.github.io/racely/privacy.html">Privacy Policy</a></li>
-            <li><a href="https://anansadiya94.github.io/racely/terms.html">Terms of Use</a></li>
           </ul>
           <a href="https://apps.apple.com/us/app/racely/id6761856973" target="_blank" rel="noopener" class="nav-cta">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -1190,7 +1273,7 @@
         <span class="stat-pill"><span class="pill-dot" style="background:var(--blue)"></span>Road · Trail · Track</span>
         <span class="stat-pill"><span class="pill-dot" style="background:var(--green)"></span>5K to Marathon &amp; Custom</span>
         <span class="stat-pill"><span class="pill-dot" style="background:var(--purple)"></span>iCloud Sync</span>
-        <span class="stat-pill"><span class="pill-dot" style="background:var(--orange)"></span>Free to Download</span>
+        <span class="stat-pill"><span class="pill-dot" style="background:var(--orange)"></span>Works Offline</span>
       </div>
 
     </div>
@@ -1232,6 +1315,23 @@
           <p class="phone-label">Profile</p>
         </div>
 
+      </div>
+    </div>
+    <div class="container">
+      <div class="screenshots-nav">
+        <button class="screenshots-arrow" id="screenshotPrev" aria-label="Previous screenshot">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 2L4 7l5 5"/></svg>
+        </button>
+        <div class="screenshots-dots">
+          <button class="screenshots-dot" aria-label="Screenshot 1"></button>
+          <button class="screenshots-dot" aria-label="Screenshot 2"></button>
+          <button class="screenshots-dot" aria-label="Screenshot 3"></button>
+          <button class="screenshots-dot" aria-label="Screenshot 4"></button>
+          <button class="screenshots-dot" aria-label="Screenshot 5"></button>
+        </div>
+        <button class="screenshots-arrow" id="screenshotNext" aria-label="Next screenshot">
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 2l5 5-5 5"/></svg>
+        </button>
       </div>
     </div>
   </section>
@@ -1286,6 +1386,11 @@
           </span>
           <h3 class="bc-name">Race Planning</h3>
           <p class="bc-desc">Organize your calendar, set goal times, and track registration deadlines. Stay race-ready year-round.</p>
+          <div class="plan-mock">
+            <div class="plan-label">Next race · Chicago Marathon</div>
+            <span class="plan-number">47</span>
+            <div class="plan-days">days to race day</div>
+          </div>
         </div>
 
         <!-- Statistics -->
@@ -1295,6 +1400,16 @@
           </span>
           <h3 class="bc-name">Statistics</h3>
           <p class="bc-desc">Visualize your progress with pace trends, distance milestones, and race frequency breakdowns.</p>
+          <div class="stats-mock">
+            <div class="stat-mock-item">
+              <div class="stat-mock-num">24</div>
+              <div class="stat-mock-label">Races</div>
+            </div>
+            <div class="stat-mock-item">
+              <div class="stat-mock-num">4:52</div>
+              <div class="stat-mock-label">Best pace</div>
+            </div>
+          </div>
         </div>
 
         <!-- All Distances -->
@@ -1452,8 +1567,8 @@
   <section id="download" class="cta-wrap">
     <div class="container">
       <div class="cta-box reveal">
-        <h2 class="cta-h">Start tracking your races today</h2>
-        <p class="cta-sub">Free for iOS. Your running history, beautifully organized.</p>
+        <h2 class="cta-h">Your next PR starts with<br>knowing where you've been.</h2>
+        <p class="cta-sub">Free for iOS. Log your first race in under a minute.</p>
         <a href="https://apps.apple.com/us/app/racely/id6761856973" target="_blank" rel="noopener" class="btn btn-white">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
           Download on the App Store
@@ -1618,6 +1733,41 @@
     }, { threshold: 0.08, rootMargin: '0px 0px -52px 0px' });
 
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // ── Screenshot carousel ──
+    const screenshotScroll = document.querySelector('.screenshots-scroll');
+    const screenshotFrames = document.querySelectorAll('.phone-frame');
+    const screenshotDots   = document.querySelectorAll('.screenshots-dot');
+    const prevBtn = document.getElementById('screenshotPrev');
+    const nextBtn = document.getElementById('screenshotNext');
+    let currentIdx = 0;
+
+    function scrollToFrame(index) {
+      currentIdx = Math.max(0, Math.min(index, screenshotFrames.length - 1));
+      const frame = screenshotFrames[currentIdx];
+      const target = frame.offsetLeft - (screenshotScroll.clientWidth / 2) + (frame.offsetWidth / 2);
+      screenshotScroll.scrollTo({ left: target, behavior: 'smooth' });
+      screenshotDots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
+    }
+
+    prevBtn.addEventListener('click', () => scrollToFrame(currentIdx - 1));
+    nextBtn.addEventListener('click', () => scrollToFrame(currentIdx + 1));
+    screenshotDots.forEach((dot, i) => dot.addEventListener('click', () => scrollToFrame(i)));
+
+    screenshotScroll.addEventListener('scroll', () => {
+      const mid = screenshotScroll.scrollLeft + screenshotScroll.clientWidth / 2;
+      let closest = 0, closestDist = Infinity;
+      screenshotFrames.forEach((f, i) => {
+        const d = Math.abs((f.offsetLeft + f.offsetWidth / 2) - mid);
+        if (d < closestDist) { closestDist = d; closest = i; }
+      });
+      if (closest !== currentIdx) {
+        currentIdx = closest;
+        screenshotDots.forEach((d, i) => d.classList.toggle('active', i === closest));
+      }
+    }, { passive: true });
+
+    screenshotDots[0].classList.add('active');
 
     // ── FAQ accordion ──
     document.querySelectorAll('.faq-question').forEach(btn => {
