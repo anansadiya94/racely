@@ -958,9 +958,10 @@
       transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .screenshot-dark { display: none; }
-    [data-theme="dark"] .screenshot-light { display: none; }
-    [data-theme="dark"] .screenshot-dark  { display: block; }
+    /* Scoped to .phone-frame so these beat `.phone-frame img { display: block }`. */
+    .phone-frame .screenshot-dark { display: none; }
+    [data-theme="dark"] .phone-frame .screenshot-light { display: none; }
+    [data-theme="dark"] .phone-frame .screenshot-dark  { display: block; }
 
     .phone-frame:hover img {
       transform: translateY(-6px);
@@ -1354,21 +1355,21 @@
       <div class="screenshots-track">
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/onboarding.png" alt="Onboarding screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/onboarding.png"  alt="Onboarding screen" loading="lazy" class="screenshot-dark" />
-          <p class="phone-label">Onboarding</p>
-        </div>
-
-        <div class="phone-frame reveal">
-          <img src="screenshots/light/past_races_list.png" alt="Past Races screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/past_races_list.png"  alt="Past Races screen" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/past_races_list.png" alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/past_races_list.png"  alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Past Races</p>
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/upcoming_races_map.png" alt="Upcoming Races screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/upcoming_races_map.png"  alt="Upcoming Races screen" loading="lazy" class="screenshot-dark" />
-          <p class="phone-label">Upcoming Races</p>
+          <img src="screenshots/light/result_card.png" alt="Result card for sharing a finish" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/result_card.png"  alt="Result card for sharing a finish" loading="lazy" class="screenshot-dark" />
+          <p class="phone-label">Share a Result</p>
+        </div>
+
+        <div class="phone-frame reveal">
+          <img src="screenshots/light/backyard.png" alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/backyard.png"  alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-dark" />
+          <p class="phone-label">Backyard Ultras</p>
         </div>
 
         <div class="phone-frame reveal">
@@ -1378,9 +1379,9 @@
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/profile.png" alt="Profile screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/profile.png"  alt="Profile screen" loading="lazy" class="screenshot-dark" />
-          <p class="phone-label">Profile</p>
+          <img src="screenshots/light/upcoming_races.png" alt="Upcoming Races screen" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/upcoming_races.png"  alt="Upcoming Races screen" loading="lazy" class="screenshot-dark" />
+          <p class="phone-label">Upcoming Races</p>
         </div>
 
       </div>
