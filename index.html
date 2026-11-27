@@ -24,6 +24,19 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Gloock:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet" />
 
+  <script>
+    // Runs before first paint: apply the saved or system theme so dark-mode visitors
+    // don't see a light flash, and mark JS as available for scroll-reveal styles.
+    (function () {
+      var root = document.documentElement, saved = null;
+      root.classList.add('js');
+      try { saved = localStorage.getItem('racely-theme'); } catch (e) {}
+      if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        root.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -35,9 +48,11 @@
       --orange: #EA580C;  /* raceOrange light rgb(0.914, 0.345, 0.047) */
       --red:    #EF4444;
 
-      /* Filled buttons: a deeper blue than --blue so white text clears 4.5:1 (5.0:1). */
-      --blue-btn: #1D6AE0;
-      --on-blue:  #FFFFFF;
+      /* --blue is too light for white text or small blue text (3.5–3.8:1).
+         These clear WCAG AA 4.5:1 on every light surface (bg-alt is the worst case). */
+      --blue-btn:  #1B65D6;  /* filled buttons, white text 5.4:1 */
+      --on-blue:   #FFFFFF;
+      --blue-text: #1B65D6;  /* blue text under 24px, 4.7:1 on bg-alt */
 
       --bg:             #F7F6F2;
       --bg-alt:         #EFEEE9;
@@ -45,8 +60,8 @@
       --border:         rgba(0, 0, 0, 0.07);
       --border-strong:  rgba(0, 0, 0, 0.13);
       --text:           #1B1915;
-      --text-2:         #6B6860;
-      --text-3:         #7A7671;
+      --text-2:         #5C5952;  /* 6.0:1 on bg-alt */
+      --text-3:         #6B6860;  /* 4.8:1 on bg-alt */
 
       --font-display: 'Gloock', serif;
       --font-body:    'Archivo', sans-serif;
@@ -63,8 +78,9 @@
       --orange: #FB923C;  /* raceOrange dark rgb(0.984, 0.573, 0.235) */
 
       /* Light blue fill needs dark text: 7.7:1 (white was 2.45:1). */
-      --blue-btn: #73A6FA;
-      --on-blue:  #111110;
+      --blue-btn:  #73A6FA;
+      --on-blue:   #111110;
+      --blue-text: #73A6FA;  /* 6.9:1 on surface */
 
       --bg:            #111110;
       --bg-alt:        #191816;
@@ -72,11 +88,16 @@
       --border:        rgba(255, 255, 255, 0.07);
       --border-strong: rgba(255, 255, 255, 0.13);
       --text:          #F0EDE6;
-      --text-2:        #88847C;
-      --text-3:        #706D69;
+      --text-2:        #A39F96;  /* 6.3:1 on surface */
+      --text-3:        #8F8B83;  /* 4.9:1 on surface */
     }
 
-    html { scroll-behavior: smooth; }
+    /* Gloock ships one weight and no italic. Don't let the browser fake bold or slant it. */
+    html { font-synthesis: none; }
+
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
 
     body {
       background: var(--bg);
@@ -118,7 +139,7 @@
     .nav-logo {
       font-family: var(--font-display);
       font-size: 24px;
-      font-weight: 600;
+      font-weight: 400;
       letter-spacing: -0.01em;
       text-decoration: none;
       color: var(--text);
@@ -195,23 +216,6 @@
       overflow: hidden;
     }
 
-    .hero-mesh {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 65% 55% at 15% 0%,   color-mix(in srgb, var(--blue) 8%, transparent) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 85% 100%,  color-mix(in srgb, var(--purple) 8%, transparent) 0%, transparent 60%),
-        radial-gradient(ellipse 35% 30% at 55%  60%,  color-mix(in srgb, var(--orange) 5%, transparent) 0%, transparent 55%);
-    }
-
-    [data-theme="dark"] .hero-mesh {
-      background:
-        radial-gradient(ellipse 65% 55% at 15% 0%,   color-mix(in srgb, var(--blue) 13%, transparent) 0%, transparent 60%),
-        radial-gradient(ellipse 55% 45% at 85% 100%,  color-mix(in srgb, var(--purple) 13%, transparent) 0%, transparent 60%),
-        radial-gradient(ellipse 35% 30% at 55%  60%,  color-mix(in srgb, var(--orange) 7%, transparent) 0%, transparent 55%);
-    }
-
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
@@ -220,11 +224,7 @@
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: var(--blue);
-      background: color-mix(in srgb, var(--blue) 7%, transparent);
-      border: 1px solid color-mix(in srgb, var(--blue) 16%, transparent);
-      padding: 6px 16px;
-      border-radius: 100px;
+      color: var(--blue-text);
       margin-bottom: 36px;
       opacity: 0;
       animation: riseUp 0.65s ease forwards 0.1s;
@@ -260,7 +260,7 @@
     }
 
     .hero-h1 em {
-      font-style: italic;
+      font-style: normal;
       font-weight: 400;
       color: var(--blue);
     }
@@ -345,16 +345,7 @@
       background: var(--border);
     }
 
-    /* ── SECTION LABELS ── */
-    .kicker {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--purple);
-      margin-bottom: 10px;
-    }
-
+    /* ── SECTION HEADINGS ── */
     .section-h {
       font-family: var(--font-display);
       font-size: clamp(38px, 5vw, 58px);
@@ -365,7 +356,7 @@
     }
 
     .section-h em {
-      font-style: italic;
+      font-style: normal;
       color: var(--text-2);
     }
 
@@ -395,16 +386,6 @@
       padding: 30px 30px 28px;
       position: relative;
       overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .bc:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 20px 60px rgba(0,0,0,0.07);
-    }
-
-    [data-theme="dark"] .bc:hover {
-      box-shadow: 0 20px 60px rgba(0,0,0,0.32);
     }
 
     .bc-history  { grid-column: 1 / 3; grid-row: 1 / 3; }
@@ -437,7 +418,7 @@
     .bc-name {
       font-family: var(--font-display);
       font-size: 26px;
-      font-weight: 600;
+      font-weight: 400;
       letter-spacing: -0.01em;
       color: var(--text);
       margin-bottom: 10px;
@@ -470,10 +451,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      transition: border-color var(--ease);
     }
-
-    .race-entry:hover { border-color: var(--border-strong); }
 
     .race-entry-name {
       font-weight: 600;
@@ -491,8 +469,8 @@
     .race-entry-time {
       font-family: var(--font-display);
       font-size: 22px;
-      font-weight: 600;
-      color: var(--blue);
+      font-weight: 400;
+      color: var(--blue-text);
       flex-shrink: 0;
       letter-spacing: -0.01em;
       font-variant-numeric: tabular-nums;
@@ -522,48 +500,22 @@
       gap: 28px;
       padding: 44px 48px;
       border-bottom: 1px solid var(--border);
-      transition: background var(--ease);
-      cursor: default;
     }
 
     .terrain-row:last-child { border-bottom: none; }
-    .terrain-row:hover      { background: var(--bg-alt); }
 
     .terrain-num {
       font-family: var(--font-display);
       font-size: 52px;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--text-3);
       line-height: 1;
-      transition: color var(--ease);
     }
-
-    .terrain-row:hover .terrain-num { color: var(--text-2); }
-
-    .terrain-id {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .terrain-icon-box {
-      width: 58px; height: 58px;
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 26px;
-      flex-shrink: 0;
-    }
-
-    .terrain-road  .terrain-icon-box { background: color-mix(in srgb, var(--blue) 10%, transparent); }
-    .terrain-trail .terrain-icon-box { background: color-mix(in srgb, var(--green) 10%, transparent); }
-    .terrain-track .terrain-icon-box { background: color-mix(in srgb, var(--purple) 10%, transparent); }
 
     .terrain-name {
       font-family: var(--font-display);
       font-size: 38px;
-      font-weight: 600;
+      font-weight: 400;
       letter-spacing: -0.015em;
       color: var(--text);
       line-height: 1;
@@ -596,23 +548,6 @@
       overflow: hidden;
     }
 
-    .sync-card::after {
-      content: '';
-      position: absolute;
-      right: -80px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 340px;
-      height: 340px;
-      border-radius: 50%;
-      background: radial-gradient(circle, color-mix(in srgb, var(--blue) 6%, transparent) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    [data-theme="dark"] .sync-card::after {
-      background: radial-gradient(circle, color-mix(in srgb, var(--blue) 10%, transparent) 0%, transparent 70%);
-    }
-
     .sync-h {
       font-family: var(--font-display);
       font-size: clamp(36px, 4vw, 54px);
@@ -624,7 +559,7 @@
     }
 
     .sync-h em {
-      font-style: italic;
+      font-style: normal;
       color: var(--blue);
     }
 
@@ -696,14 +631,14 @@
     .dev-race {
       font-family: var(--font-display);
       font-size: 19px;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text);
       margin-bottom: 3px;
     }
 
     .dev-time {
       font-size: 13px;
-      color: var(--blue);
+      color: var(--blue-text);
       font-style: italic;
       font-variant-numeric: tabular-nums;
       font-feature-settings: "tnum" 1;
@@ -722,16 +657,6 @@
       color: #F0EDE6;
       position: relative;
       overflow: hidden;
-    }
-
-    .cta-box::before {
-      content: '';
-      position: absolute;
-      top: -80px; right: -80px;
-      width: 320px; height: 320px;
-      border-radius: 50%;
-      background: color-mix(in srgb, var(--blue) 9%, transparent);
-      pointer-events: none;
     }
 
 
@@ -833,7 +758,7 @@
     }
 
     .faq-item.open .faq-question {
-      color: var(--blue);
+      color: var(--blue-text);
     }
 
     .faq-answer {
@@ -876,7 +801,7 @@
     .footer-logo {
       font-family: var(--font-display);
       font-size: 20px;
-      font-weight: 600;
+      font-weight: 400;
       color: var(--text-2);
     }
 
@@ -958,6 +883,7 @@
 
     .phone-frame img {
       width: 200px;
+      height: auto;
       border-radius: 20px;
       display: block;
       border: 1px solid var(--border-strong);
@@ -1043,25 +969,37 @@
 
     .screenshots-dots {
       display: flex;
-      gap: 7px;
       align-items: center;
     }
 
+    /* The button is the 32×44 tap area; the visible 6px dot is drawn by ::before. */
     .screenshots-dot {
+      width: 32px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+
+    .screenshots-dot::before {
+      content: '';
       width: 6px;
       height: 6px;
       border-radius: 50%;
       background: var(--border-strong);
-      cursor: pointer;
-      border: none;
-      padding: 0;
       transition: background var(--ease), transform var(--ease);
     }
 
-    .screenshots-dot.active {
+    .screenshots-dot.active::before {
       background: var(--blue);
       transform: scale(1.4);
     }
+
+    .screenshots-dot:focus-visible { outline-offset: -8px; }
 
     @media (min-width: 961px) {
       .screenshots-nav { display: none; }
@@ -1088,7 +1026,7 @@
     .plan-number {
       font-family: var(--font-display);
       font-size: 48px;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--orange);
       line-height: 1;
       display: block;
@@ -1120,7 +1058,7 @@
     .stat-mock-num {
       font-family: var(--font-display);
       font-size: 28px;
-      font-weight: 300;
+      font-weight: 400;
       color: var(--text);
       line-height: 1;
       margin-bottom: 5px;
@@ -1173,15 +1111,26 @@
     }
 
     /* ── REVEAL ── */
-    .reveal {
+    /* Scoped to .js (set in <head>) so content stays visible if the script never runs. */
+    .js .reveal {
       opacity: 0;
       transform: translateY(26px);
-      transition: opacity 0.65s ease, transform 0.65s ease;
+      transition: opacity 0.65s cubic-bezier(0.25, 1, 0.5, 1), transform 0.65s cubic-bezier(0.25, 1, 0.5, 1);
     }
 
-    .reveal.visible {
+    .js .reveal.visible {
       opacity: 1;
       transform: none;
+    }
+
+    /* ── REDUCED MOTION ── */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-eyebrow, .hero-icon, .hero-h1, .hero-sub, .hero-cta {
+        animation: none;
+        opacity: 1;
+      }
+      .js .reveal { opacity: 1; transform: none; transition: none; }
+      .btn:hover, .nav-cta:hover, .phone-frame:hover img { transform: none; }
     }
 
     /* ── RESPONSIVE ── */
@@ -1229,6 +1178,7 @@
       .cta-box   { padding: 48px 24px; }
 
       .nav-links { display: none; }
+      .nav-right { gap: 10px; }
       .footer-inner { justify-content: center; text-align: center; }
     }
 
@@ -1252,6 +1202,14 @@
     /* Must come after the base .nav-menu-btn rule, or `display: none` wins. */
     @media (max-width: 640px) {
       .nav-menu-btn { display: flex; }
+    }
+
+    /* Touch screens: grow small controls to a 44px tap target.
+       Kept after all the base rules it overrides. */
+    @media (pointer: coarse) {
+      .theme-btn, .nav-menu-btn, .screenshots-arrow { width: 44px; height: 44px; }
+      .nav-cta { min-height: 44px; }
+      .footer-links a { display: inline-flex; align-items: center; min-height: 44px; }
     }
 
     .mobile-nav {
@@ -1329,7 +1287,6 @@
 
   <!-- ── HERO ── -->
   <section id="main-content" class="hero">
-    <div class="hero-mesh"></div>
     <div class="container">
 
       <div class="hero-eyebrow">Available on the App Store &middot; Free</div>
@@ -1342,7 +1299,7 @@
         <em>Own Every PR.</em>
       </h1>
 
-      <p class="hero-sub">Log past races, plan upcoming ones, and watch your progress unfold — all in one beautifully simple app.</p>
+      <p class="hero-sub">Log past races, plan upcoming ones, and watch your progress unfold, all in one beautifully simple app.</p>
 
       <div class="hero-cta">
         <a href="https://apps.apple.com/us/app/racely/id6761856973" target="_blank" rel="noopener" class="btn btn-primary">
@@ -1360,7 +1317,6 @@
   <section id="screenshots" class="screenshots-wrap">
     <div class="container">
       <div class="screenshots-hd reveal">
-        <p class="kicker">Screenshots</p>
         <h2 class="section-h">Built for runners, <em>by a runner</em></h2>
       </div>
     </div>
@@ -1368,32 +1324,32 @@
       <div class="screenshots-track">
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/past_races_list.png" alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/past_races_list.png"  alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/past_races_list.webp" width="480" height="1043" alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/past_races_list.webp" width="480" height="1043"  alt="Past Races screen with personal records marked" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Past Races</p>
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/result_card.png" alt="Result card for sharing a finish" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/result_card.png"  alt="Result card for sharing a finish" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/result_card.webp" width="480" height="1043" alt="Result card for sharing a finish" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/result_card.webp" width="480" height="1043"  alt="Result card for sharing a finish" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Share a Result</p>
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/backyard.png" alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/backyard.png"  alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/backyard.webp" width="480" height="1043" alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/backyard.webp" width="480" height="1043"  alt="Backyard ultra detail with loop splits" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Backyard Ultras</p>
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/stats.png" alt="Statistics screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/stats.png"  alt="Statistics screen" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/stats.webp" width="480" height="1043" alt="Statistics screen" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/stats.webp" width="480" height="1043"  alt="Statistics screen" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Stats</p>
         </div>
 
         <div class="phone-frame reveal">
-          <img src="screenshots/light/upcoming_races.png" alt="Upcoming Races screen" loading="lazy" class="screenshot-light" />
-          <img src="screenshots/dark/upcoming_races.png"  alt="Upcoming Races screen" loading="lazy" class="screenshot-dark" />
+          <img src="screenshots/light/upcoming_races.webp" width="480" height="1043" alt="Upcoming Races screen" loading="lazy" class="screenshot-light" />
+          <img src="screenshots/dark/upcoming_races.webp" width="480" height="1043"  alt="Upcoming Races screen" loading="lazy" class="screenshot-dark" />
           <p class="phone-label">Upcoming Races</p>
         </div>
 
@@ -1423,7 +1379,6 @@
     <div class="container">
 
       <div class="features-hd reveal">
-        <p class="kicker">Features</p>
         <h2 class="section-h">Everything <em>a runner needs</em></h2>
       </div>
 
@@ -1509,7 +1464,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           </span>
           <h3 class="bc-name">Runner Profile</h3>
-          <p class="bc-desc">A personal space for your PRs, preferred distances, and running identity — all yours.</p>
+          <p class="bc-desc">A personal space for your PRs, preferred distances, and running identity. All yours.</p>
         </div>
 
         <!-- iCloud Sync -->
@@ -1518,7 +1473,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
           </span>
           <h3 class="bc-name">iCloud Sync</h3>
-          <p class="bc-desc">Races and profile sync automatically across your Apple devices. Reinstall anytime — your data comes back.</p>
+          <p class="bc-desc">Races and profile sync automatically across your Apple devices. Reinstall anytime and your data comes back.</p>
         </div>
 
         <!-- Location -->
@@ -1545,7 +1500,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           </span>
           <h3 class="bc-name">Home Screen Widgets</h3>
-          <p class="bc-desc">Keep your next race countdown and personal bests on your home screen — always a glance away.</p>
+          <p class="bc-desc">Keep your next race countdown and personal bests on your home screen, always a glance away.</p>
         </div>
 
       </div>
@@ -1557,7 +1512,6 @@
     <div class="container">
 
       <div class="race-types-hd reveal">
-        <p class="kicker">Race Types</p>
         <h2 class="section-h">Whatever terrain <em>you race on</em></h2>
       </div>
 
@@ -1566,7 +1520,6 @@
         <div class="terrain-row terrain-road">
           <div class="terrain-num">01</div>
           <div class="terrain-id">
-            <div class="terrain-icon-box">🛣️</div>
             <div class="terrain-name">Road</div>
           </div>
           <p class="terrain-desc">City races, 5Ks, half marathons, and marathons on paved streets</p>
@@ -1575,7 +1528,6 @@
         <div class="terrain-row terrain-trail">
           <div class="terrain-num">02</div>
           <div class="terrain-id">
-            <div class="terrain-icon-box">⛰️</div>
             <div class="terrain-name">Trail</div>
           </div>
           <p class="terrain-desc">Off-road adventures through mountains, forests, and wild terrain</p>
@@ -1584,7 +1536,6 @@
         <div class="terrain-row terrain-track">
           <div class="terrain-num">03</div>
           <div class="terrain-id">
-            <div class="terrain-icon-box">🏟️</div>
             <div class="terrain-name">Track</div>
           </div>
           <p class="terrain-desc">Speed work and competitive events on the oval</p>
@@ -1600,13 +1551,12 @@
       <div class="sync-card reveal">
 
         <div>
-          <p class="kicker" style="margin-bottom:12px">iCloud Sync</p>
           <h2 class="sync-h">Every race. <em>Every device.</em></h2>
-          <p class="sync-body">Your race data follows you everywhere. iCloud sync keeps your history, upcoming races, and profile backed up automatically — so switching to a new iPhone or reinstalling is completely painless.</p>
+          <p class="sync-body">Your race data follows you everywhere. iCloud sync keeps your history, upcoming races, and profile backed up automatically, so switching to a new iPhone or reinstalling is completely painless.</p>
           <ul class="sync-list">
             <li>
               <span class="check-circle"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              Automatic — no setup beyond your Apple ID
+              Automatic: no setup beyond your Apple ID
             </li>
             <li>
               <span class="check-circle"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
@@ -1614,11 +1564,11 @@
             </li>
             <li>
               <span class="check-circle"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              Private — data stays within Apple's ecosystem
+              Private: data stays within Apple's ecosystem
             </li>
             <li>
               <span class="check-circle"><svg viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-              Reinstall anytime — everything comes back
+              Reinstall anytime: everything comes back
             </li>
           </ul>
         </div>
@@ -1664,7 +1614,6 @@
     <div class="container">
 
       <div class="faq-hd reveal">
-        <p class="kicker">Questions</p>
         <h2 class="section-h">Frequently Asked Questions</h2>
       </div>
 
@@ -1675,7 +1624,7 @@
             Is Racely free?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes — free to download and use, no subscription required. No plans to change that.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Free to download and use, no subscription required. No plans to change that.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1683,7 +1632,7 @@
             Does Racely track my runs with GPS?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">No — Racely is a race log, not a GPS tracker. You enter your finish time after the race (or import it from Strava). Think of it as your personal race record book, not a training app.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">No. Racely is a race log, not a GPS tracker. You enter your finish time after the race (or import it from Strava). Think of it as your personal race record book, not a training app.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1699,7 +1648,7 @@
             What distances and race types does Racely support?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">5K, 10K, Half Marathon, Marathon, and Ultra out of the box — plus a Custom distance for anything else. Road, Trail, and Track race types are all supported.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">5K, 10K, Half Marathon, Marathon, and Ultra out of the box, plus a Custom distance for anything else. Road, Trail, and Track race types are all supported.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1715,7 +1664,7 @@
             How does iCloud sync work?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Automatically — nothing to set up. Sign into your Apple ID and your data syncs silently in the background. The app works fully without iCloud too; data just stays on-device.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Automatically, with nothing to set up. Sign into your Apple ID and your data syncs silently in the background. The app works fully without iCloud too; data just stays on-device.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1723,7 +1672,7 @@
             Can I import races from Strava?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes. Connect Strava from the Strava card on your Profile tab and any activity you've marked as a Race in Strava is imported instantly. Strava is optional — you can log races manually without it.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Connect Strava from the Strava card on your Profile tab and any activity you've marked as a Race in Strava is imported instantly. Strava is optional; you can log races manually without it.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1731,7 +1680,7 @@
             Is my data private?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes. No account required — your races and profile live in Apple's iCloud, tied to your Apple ID, and are never sold or shared. Racely sends anonymous usage events (via Aptabase, with a random ID that isn't linked to you) and crash reports, to help find and fix bugs. Turn off Share Analytics in Settings to stop both.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. No account required: your races and profile live in Apple's iCloud, tied to your Apple ID, and are never sold or shared. Racely sends anonymous usage events (via Aptabase, with a random ID that isn't linked to you) and crash reports, to help find and fix bugs. Turn off Share Analytics in Settings to stop both.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1739,7 +1688,7 @@
             Can I use Racely offline?
             <span class="faq-chevron"><svg viewBox="0 0 10 6" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 1l4 4 4-4" stroke-width="1.5"/></svg></span>
           </button>
-          <div class="faq-answer"><div class="faq-answer-inner">Yes — everything works offline. The only feature that requires internet is importing from Strava.</div></div>
+          <div class="faq-answer"><div class="faq-answer-inner">Yes. Everything works offline. The only feature that requires internet is importing from Strava.</div></div>
         </div>
 
         <div class="faq-item">
@@ -1772,27 +1721,23 @@
   </footer>
 
   <script>
-    // ── Dark mode ──
-    const themeBtn = document.getElementById('themeBtn');
-    const saved    = localStorage.getItem('racely-theme');
-    const sysDark  = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const motionOK = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const scrollBehavior = motionOK ? 'smooth' : 'auto';
 
-    if (saved === 'dark' || (!saved && sysDark)) {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      themeBtn.textContent = '☀️';
-    }
+    // ── Dark mode ── (initial theme is applied in <head> to avoid a light flash)
+    const themeBtn = document.getElementById('themeBtn');
+    if (document.documentElement.getAttribute('data-theme') === 'dark') themeBtn.textContent = '☀️';
 
     themeBtn.addEventListener('click', () => {
       const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
       if (isDark) {
         document.documentElement.removeAttribute('data-theme');
         themeBtn.textContent = '🌙';
-        localStorage.setItem('racely-theme', 'light');
       } else {
         document.documentElement.setAttribute('data-theme', 'dark');
         themeBtn.textContent = '☀️';
-        localStorage.setItem('racely-theme', 'dark');
       }
+      try { localStorage.setItem('racely-theme', isDark ? 'light' : 'dark'); } catch (e) {}
     });
 
     // ── Mobile nav ──
@@ -1839,7 +1784,7 @@
       a.addEventListener('click', e => {
         const id = a.getAttribute('href');
         const target = document.querySelector(id);
-        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: scrollBehavior }); }
       });
     });
 
@@ -1867,7 +1812,7 @@
       currentIdx = Math.max(0, Math.min(index, screenshotFrames.length - 1));
       const frame = screenshotFrames[currentIdx];
       const target = frame.offsetLeft - (screenshotScroll.clientWidth / 2) + (frame.offsetWidth / 2);
-      screenshotScroll.scrollTo({ left: target, behavior: 'smooth' });
+      screenshotScroll.scrollTo({ left: target, behavior: scrollBehavior });
       screenshotDots.forEach((d, i) => d.classList.toggle('active', i === currentIdx));
     }
 
