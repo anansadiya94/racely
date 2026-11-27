@@ -366,11 +366,6 @@
       color: var(--text);
     }
 
-    .section-h em {
-      font-style: normal;
-      color: var(--text-2);
-    }
-
     /* ── FEATURES BENTO ── */
     .features {
       padding: 96px 0;
@@ -402,28 +397,36 @@
     .bc-history  { grid-column: 1 / 3; grid-row: 1 / 3; }
     .bc-planning { grid-column: 3;     grid-row: 1; }
     .bc-stats    { grid-column: 3;     grid-row: 2; }
-    .bc-dist     { grid-column: 1;     grid-row: 3; }
-    .bc-profile  { grid-column: 2;     grid-row: 3; }
-    .bc-sync     { grid-column: 3;     grid-row: 3; }
-    .bc-location { grid-column: 1;     grid-row: 4; }
-    .bc-strava   { grid-column: 2;     grid-row: 4; }
-    .bc-widgets  { grid-column: 3;     grid-row: 4; }
 
-    .bc-icon {
-      width: 24px;
-      height: 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 18px;
-      flex-shrink: 0;
+    /* Secondary features: a ruled spec strip, like the footer of a results
+       sheet. No boxes, no icons; the three cards above carry the visuals. */
+    .feature-strip {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0 32px;
+      margin-top: 56px;
     }
 
-    .bc-icon svg,
-    .bc-icon img {
-      width: 22px;
-      height: 22px;
-      object-fit: contain;
+    .feature-strip li {
+      border-top: 1px solid var(--border-strong);
+      padding-top: 20px;
+    }
+
+    .fs-name {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      line-height: 1.15;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .fs-desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-2);
     }
 
     .bc-name {
@@ -567,11 +570,6 @@
       line-height: 1.08;
       margin-bottom: 20px;
       color: var(--text);
-    }
-
-    .sync-h em {
-      font-style: normal;
-      color: var(--blue);
     }
 
     .sync-body {
@@ -1156,12 +1154,8 @@
       .bc-history  { grid-column: 1 / 3; grid-row: 1; }
       .bc-planning { grid-column: 1;     grid-row: 2; }
       .bc-stats    { grid-column: 2;     grid-row: 2; }
-      .bc-dist     { grid-column: 1;     grid-row: 3; }
-      .bc-profile  { grid-column: 2;     grid-row: 3; }
-      .bc-sync     { grid-column: 1 / 3; grid-row: 4; }
-      .bc-location { grid-column: 1;     grid-row: 5; }
-      .bc-strava   { grid-column: 2;     grid-row: 5; }
-      .bc-widgets  { grid-column: 1 / 3; grid-row: 6; }
+
+      .feature-strip { grid-template-columns: repeat(2, 1fr); gap: 32px 32px; }
 
       .terrain-row { grid-template-columns: 56px 1fr; }
       .terrain-desc { grid-column: 2; }
@@ -1176,11 +1170,11 @@
       .features, .race-types, .sync-wrap, .cta-wrap { padding: 72px 0; }
 
       .bento { grid-template-columns: 1fr; }
-      .bc-history, .bc-planning, .bc-stats, .bc-dist, .bc-profile, .bc-sync,
-      .bc-location, .bc-strava, .bc-widgets {
+      .bc-history, .bc-planning, .bc-stats {
         grid-column: 1 !important;
         grid-row: auto !important;
       }
+      .feature-strip { grid-template-columns: 1fr; gap: 28px; margin-top: 48px; }
 
       .terrain-row {
         grid-template-columns: 1fr;
@@ -1339,7 +1333,7 @@
   <section id="screenshots" class="screenshots-wrap">
     <div class="container">
       <div class="screenshots-hd reveal">
-        <h2 class="section-h">Built for runners, <em>by a runner</em></h2>
+        <h2 class="section-h">Built for runners, by a runner</h2>
       </div>
     </div>
     <div class="screenshots-scroll">
@@ -1401,16 +1395,13 @@
     <div class="container">
 
       <div class="features-hd reveal">
-        <h2 class="section-h">Everything <em>a runner needs</em></h2>
+        <h2 class="section-h">Everything a runner needs</h2>
       </div>
 
       <div class="bento">
 
         <!-- Race History — large (2 col × 2 row) -->
         <div class="bc bc-history reveal">
-          <span class="bc-icon" style="color: var(--blue)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14"/><line x1="12" y1="14" x2="12" y2="14"/><line x1="8" y1="18" x2="8" y2="18"/></svg>
-          </span>
           <h3 class="bc-name">Race History</h3>
           <p class="bc-desc">Log every finish with times, positions, and personal notes. Your complete race story, always at hand.</p>
           <div class="race-mock">
@@ -1440,9 +1431,6 @@
 
         <!-- Race Planning -->
         <div class="bc bc-planning reveal">
-          <span class="bc-icon" style="color: var(--orange)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>
-          </span>
           <h3 class="bc-name">Race Planning</h3>
           <p class="bc-desc">Organize your calendar, set goal times, and get race day reminders sent straight to your phone. Stay race-ready year-round.</p>
           <div class="plan-mock">
@@ -1454,9 +1442,6 @@
 
         <!-- Statistics -->
         <div class="bc bc-stats reveal">
-          <span class="bc-icon" style="color: var(--purple)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-          </span>
           <h3 class="bc-name">Statistics</h3>
           <p class="bc-desc">See your progress in a pace trend, plus your races broken down by distance and by type.</p>
           <div class="stats-mock">
@@ -1471,61 +1456,31 @@
           </div>
         </div>
 
-        <!-- All Distances -->
-        <div class="bc bc-dist reveal">
-          <span class="bc-icon" style="color: var(--green)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          </span>
-          <h3 class="bc-name">All Distances</h3>
-          <p class="bc-desc">From 5K sprints to full marathons, plus custom distances for when the race doesn't fit a mold.</p>
-        </div>
-
-        <!-- Runner Profile -->
-        <div class="bc bc-profile reveal">
-          <span class="bc-icon" style="color: var(--text-2)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          </span>
-          <h3 class="bc-name">Runner Profile</h3>
-          <p class="bc-desc">A personal space for your PRs, preferred distances, and running identity. All yours.</p>
-        </div>
-
-        <!-- iCloud Sync -->
-        <div class="bc bc-sync reveal">
-          <span class="bc-icon" style="color: var(--blue)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 109 20h9a5 5 0 000-10z"/></svg>
-          </span>
-          <h3 class="bc-name">iCloud Sync</h3>
-          <p class="bc-desc">Races and profile sync automatically across your Apple devices. Reinstall anytime and your data comes back.</p>
-        </div>
-
-        <!-- Location -->
-        <div class="bc bc-location reveal">
-          <span class="bc-icon" style="color: var(--orange)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          </span>
-          <h3 class="bc-name">Race Locations</h3>
-          <p class="bc-desc">Pin every race to a city and switch to map view to see your entire race history plotted on a map.</p>
-        </div>
-
-        <!-- Strava -->
-        <div class="bc bc-strava reveal">
-          <span class="bc-icon">
-            <img src="strava-icon.webp" alt="Strava" width="22" height="22" />
-          </span>
-          <h3 class="bc-name">Strava Import</h3>
-          <p class="bc-desc">Connect your Strava account and import your race history in one tap. Your Strava races land directly in Racely.</p>
-        </div>
-
-        <!-- Widgets -->
-        <div class="bc bc-widgets reveal">
-          <span class="bc-icon" style="color: var(--purple)">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-          </span>
-          <h3 class="bc-name">Home Screen Widgets</h3>
-          <p class="bc-desc">Keep your next race countdown and personal bests on your home screen, always a glance away.</p>
-        </div>
 
       </div>
+
+      <ul class="feature-strip reveal">
+        <li>
+          <h3 class="fs-name">All Distances</h3>
+          <p class="fs-desc">From 5K sprints to full marathons, plus custom distances for when the race doesn't fit a mold.</p>
+        </li>
+        <li>
+          <h3 class="fs-name">Runner Profile</h3>
+          <p class="fs-desc">A personal space for your PRs, preferred distances, and running identity. All yours.</p>
+        </li>
+        <li>
+          <h3 class="fs-name">Race Locations</h3>
+          <p class="fs-desc">Pin every race to a city and switch to map view to see your entire race history plotted on a map.</p>
+        </li>
+        <li>
+          <h3 class="fs-name">Strava Import</h3>
+          <p class="fs-desc">Connect your Strava account and import your race history in one tap.</p>
+        </li>
+        <li>
+          <h3 class="fs-name">Home Screen Widgets</h3>
+          <p class="fs-desc">Keep your next race countdown and personal bests on your home screen, always a glance away.</p>
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -1534,7 +1489,7 @@
     <div class="container">
 
       <div class="race-types-hd reveal">
-        <h2 class="section-h">Whatever terrain <em>you race on</em></h2>
+        <h2 class="section-h">Whatever terrain you race on</h2>
       </div>
 
       <div class="terrain-list reveal">
@@ -1573,7 +1528,7 @@
       <div class="sync-card reveal">
 
         <div>
-          <h2 class="sync-h">Every race. <em>Every device.</em></h2>
+          <h2 class="sync-h">Every race. Every device.</h2>
           <p class="sync-body">Your race data follows you everywhere. iCloud sync keeps your history, upcoming races, and profile backed up automatically, so switching to a new iPhone or reinstalling is completely painless.</p>
           <ul class="sync-list">
             <li>
