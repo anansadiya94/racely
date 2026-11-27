@@ -18,8 +18,8 @@
   <meta name="twitter:title" content="Racely — Track Every Race, Own Every PR" />
   <meta name="twitter:description" content="The iPhone app for runners who race. Log your history, plan upcoming races, and watch your progress unfold." />
   <meta name="twitter:image" content="https://racely.dev/app-icon.png" />
-  <link rel="icon" type="image/png" href="app-icon.png" media="(prefers-color-scheme: light)" />
-  <link rel="icon" type="image/png" href="app-icon-dark.png" media="(prefers-color-scheme: dark)" />
+  <link rel="icon" type="image/png" href="favicon.png" media="(prefers-color-scheme: light)" />
+  <link rel="icon" type="image/png" href="favicon-dark.png" media="(prefers-color-scheme: dark)" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Gloock:ital@0;1&family=Archivo:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap" rel="stylesheet" />
@@ -34,6 +34,10 @@
       --green:  #16A34A;  /* raceGreen light  rgb(0.086, 0.639, 0.306) */
       --orange: #EA580C;  /* raceOrange light rgb(0.914, 0.345, 0.047) */
       --red:    #EF4444;
+
+      /* Filled buttons: a deeper blue than --blue so white text clears 4.5:1 (5.0:1). */
+      --blue-btn: #1D6AE0;
+      --on-blue:  #FFFFFF;
 
       --bg:             #F7F6F2;
       --bg-alt:         #EFEEE9;
@@ -57,6 +61,10 @@
       --purple: #A78BFA;  /* racePurple dark rgb(0.655, 0.545, 0.980) */
       --green:  #4ADE80;  /* raceGreen dark  rgb(0.290, 0.867, 0.502) */
       --orange: #FB923C;  /* raceOrange dark rgb(0.984, 0.573, 0.235) */
+
+      /* Light blue fill needs dark text: 7.7:1 (white was 2.45:1). */
+      --blue-btn: #73A6FA;
+      --on-blue:  #111110;
 
       --bg:            #111110;
       --bg-alt:        #191816;
@@ -148,8 +156,8 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: var(--blue);
-      color: #fff;
+      background: var(--blue-btn);
+      color: var(--on-blue);
       font-size: 13px;
       font-weight: 600;
       padding: 8px 18px;
@@ -158,7 +166,8 @@
       transition: opacity var(--ease), transform var(--ease);
     }
 
-    .nav-cta:hover { opacity: 0.85; transform: translateY(-1px); }
+    /* No opacity fade on hover: it would drop the text contrast below 4.5:1. */
+    .nav-cta:hover { transform: translateY(-1px); }
 
     .theme-btn {
       width: 40px;
@@ -292,8 +301,8 @@
     }
 
     .btn-primary {
-      background: var(--blue);
-      color: #fff;
+      background: var(--blue-btn);
+      color: var(--on-blue);
       box-shadow: 0 4px 16px color-mix(in srgb, var(--blue) 28%, transparent);
     }
 
@@ -1220,7 +1229,6 @@
       .cta-box   { padding: 48px 24px; }
 
       .nav-links { display: none; }
-      .nav-menu-btn { display: flex; }
       .footer-inner { justify-content: center; text-align: center; }
     }
 
@@ -1240,6 +1248,11 @@
       transition: border-color var(--ease), background var(--ease);
     }
     .nav-menu-btn:hover { border-color: var(--text-3); }
+
+    /* Must come after the base .nav-menu-btn rule, or `display: none` wins. */
+    @media (max-width: 640px) {
+      .nav-menu-btn { display: flex; }
+    }
 
     .mobile-nav {
       display: none;
@@ -1321,8 +1334,8 @@
 
       <div class="hero-eyebrow">Available on the App Store &middot; Free</div>
 
-      <img src="app-icon.png"      alt="Racely app icon" class="hero-icon hero-icon-light" />
-      <img src="app-icon-dark.png" alt="Racely app icon" class="hero-icon hero-icon-dark"  />
+      <img src="app-icon-192.webp"      alt="Racely app icon" width="96" height="96" class="hero-icon hero-icon-light" />
+      <img src="app-icon-dark-192.webp" alt="Racely app icon" width="96" height="96" class="hero-icon hero-icon-dark"  />
 
       <h1 class="hero-h1">
         Track Every Race.<br>
@@ -1788,20 +1801,38 @@
     const hamburgerIcon = `<svg width="18" height="14" viewBox="0 0 18 14" fill="none"><line x1="0" y1="1" x2="18" y2="1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="7" x2="18" y2="7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="0" y1="13" x2="18" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
     const closeIcon = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="1" x2="13" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="1" x2="1" y2="13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>`;
 
+    // Everything except the nav bar and the menu overlay; made inert while the menu is open
+    // so keyboard and screen-reader focus stays inside the menu.
+    const pageBehindMenu = [...document.body.children].filter(el =>
+      el.tagName !== 'NAV' && el !== mobileNav && el.tagName !== 'SCRIPT');
+
+    function setMobileNav(open, { restoreFocus = false } = {}) {
+      mobileNav.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      menuBtn.innerHTML = open ? closeIcon : hamburgerIcon;
+      document.body.style.overflow = open ? 'hidden' : '';
+      pageBehindMenu.forEach(el => { el.inert = open; });
+      if (open) mobileNav.querySelector('a').focus();
+      else if (restoreFocus) menuBtn.focus();
+    }
+
     menuBtn.addEventListener('click', () => {
-      const isOpen = mobileNav.classList.contains('open');
-      mobileNav.classList.toggle('open');
-      menuBtn.setAttribute('aria-expanded', String(!isOpen));
-      menuBtn.innerHTML = isOpen ? hamburgerIcon : closeIcon;
-      document.body.style.overflow = isOpen ? '' : 'hidden';
+      setMobileNav(!mobileNav.classList.contains('open'));
     });
 
-    function closeMobileNav() {
-      mobileNav.classList.remove('open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-      menuBtn.innerHTML = hamburgerIcon;
-      document.body.style.overflow = '';
-    }
+    function closeMobileNav() { setMobileNav(false); }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) {
+        setMobileNav(false, { restoreFocus: true });
+      }
+    });
+
+    // Close the menu if the viewport grows past the mobile breakpoint while it's open.
+    window.matchMedia('(max-width: 640px)').addEventListener('change', e => {
+      if (!e.matches && mobileNav.classList.contains('open')) setMobileNav(false);
+    });
 
     // ── Smooth scroll ──
     document.querySelectorAll('a[href^="#"]').forEach(a => {
