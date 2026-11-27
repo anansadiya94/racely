@@ -14,7 +14,7 @@ Not a hype machine. Not a health dashboard. The feeling of looking at your offic
 - **Theme**: Light primary, dark secondary (supports both — follows system preference). Users browse the landing page in any context; the app is used in daylight and evening equally.
 - **Visual tone**: Refined precision. Think timing boards, race bibs, official results sheets — not sports marketing, not wellness apps. Numbers matter and should look important.
 - **Anti-references**: Generic health app (pastel cards, Apple Health aesthetic), social media (feeds, leaderboards), sports brand marketing (aggressive, high-contrast, loud).
-- **References to keep from current landing**: The Cormorant Garamond + Archivo pairing direction is *right in spirit* (display serif + clean sans) but Cormorant Garamond is overused — find a fresher serif or distinctive display face with the same elegance.
+- **Typography**: Display serif + clean sans: Gloock + Archivo. Gloock replaced Cormorant Garamond, which is overused. Gloock has one weight and no italic, so emphasis in display type comes from color.
 
 ### Design Principles
 1. **Numbers are the hero** — finish times, PRs, distances deserve typographic emphasis. Big, legible, beautiful numerals.
@@ -27,11 +27,8 @@ Not a hype machine. Not a health dashboard. The feeling of looking at your offic
 
 **Landing page** (`/Users/anan.sadiya/Developer/racely`):
 - Single HTML file, pure CSS — no build system
-- Fonts: Cormorant Garamond (banned — needs replacement) + Archivo (fine)
-- Current issues to address on next polish pass:
-  - Gradient text on logo and `<em>` in hero heading — BANNED by impeccable guidelines
-  - Top accent stripes on bento cards (`.bc::before`) — acceptable (not side-stripe), but monotonous
-  - Font: replace Cormorant Garamond with something equally distinctive but less overused
+- Fonts: Gloock (display) + Archivo (body)
+- Earlier polish-pass issues (gradient text, Cormorant Garamond, bento accent stripes) are resolved
 
 **iOS app** (`/Users/anan.sadiya/Developer/racely-ios`):
 - SwiftUI + TCA, iOS 18+
